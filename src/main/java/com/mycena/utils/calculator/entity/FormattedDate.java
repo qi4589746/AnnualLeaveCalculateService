@@ -1,11 +1,21 @@
 package com.mycena.utils.calculator.entity;
 
 import java.time.YearMonth;
+import java.util.Calendar;
 
 public class FormattedDate {
     public int year;
     public int month;
     public int day;
+
+    public FormattedDate(Long time) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+
+        this.year = calendar.get(Calendar.YEAR);
+        this.month = calendar.get(Calendar.MONDAY);
+        this.day = calendar.get(Calendar.DATE);
+    }
 
     public FormattedDate(int year, int month, int day) {
         this.year = year;
@@ -17,6 +27,30 @@ public class FormattedDate {
         this.year = formattedDate.year;
         this.month = formattedDate.month;
         this.day = formattedDate.day;
+    }
+
+    public Long convertToLong() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day, 23, 0);
+        return calendar.getTimeInMillis();
+    }
+
+    public FormattedDate getYesterday() {
+        int tempYear = year;
+        int tempMonth = month;
+        int tempDay = day;
+        tempDay -= 1;
+
+        if (tempDay == 0) {
+            tempMonth -= 1;
+            if (tempMonth == 0) {
+                tempYear -= 1;
+                tempMonth = 12;
+            }
+            tempDay = YearMonth.of(tempYear, tempMonth).lengthOfMonth();
+        }
+
+        return new FormattedDate(tempYear, tempMonth, tempDay);
     }
 
     public FormattedDate getTomorrow() {

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AnnualLeaveUtil {
 
-    static final int minuteOfDay = 1400;
+    static final int minuteOfDay = 1440;
 
     public float getLeaveDays(FormattedDate seniority) {
         if(seniority.year == 0 && seniority.month >= 6)
@@ -40,6 +40,10 @@ public class AnnualLeaveUtil {
                     return 3f;
         }
         return 0f;
+    }
+
+    public int convertFloatToMinute(float totalLeaveDay) {
+        return (int) totalLeaveDay * minuteOfDay;
     }
 
     public LeaveFormat convertFloatToLeaveFormat(float leaveNum) {

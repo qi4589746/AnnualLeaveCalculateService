@@ -1,7 +1,6 @@
 package com.mycena.utils.entity;
 
 import com.mycena.utils.calculator.service.IdGenerator;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,7 +10,6 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = GroupUserPayLeave.TABLE_NAME, uniqueConstraints = {@UniqueConstraint(columnNames = {"group_id", "no"})})
 @IdGenerator.Config(prefix = "group")
@@ -43,5 +41,13 @@ public class GroupUserPayLeave {
     @Column(name = "expireDateTime")
     public Long expireDateTime;
 
-
+    public GroupUserPayLeave(String groupId, String userId, LeaveType type, int totalMinute, int availableMinute, Long activeDateTime, Long expireDateTime) {
+        this.groupId = groupId;
+        this.userId = userId;
+        this.type = type;
+        this.totalMinute = totalMinute;
+        this.availableMinute = availableMinute;
+        this.activeDateTime = activeDateTime;
+        this.expireDateTime = expireDateTime;
+    }
 }
