@@ -1,8 +1,13 @@
 package com.mycena.utils.calculator.entity;
 
-import com.mycena.util.AnnualLeaveUtil;
+
+import com.mycena.utils.calculator.service.AnnualLeaveUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class LeaveData {
+    @Autowired
+    AnnualLeaveUtil annualLeaveUtil;
+
     public FormattedDate beginDate;
     public FormattedDate endDate;
     public FormattedDate midDate;
@@ -27,7 +32,7 @@ public class LeaveData {
         if (midDate == null) {
             out = "總共: " + totalLeaveNum + "\n" +
                     beginDate.toString() + " ~ " + endDate.toString() +
-                    "\n" + AnnualLeaveUtil.convertFloatToLeaveFormat(totalLeaveNum).toString();
+                    "\n" + annualLeaveUtil.convertFloatToLeaveFormat(totalLeaveNum).toString();
         } else {
             out = "總共: " + totalLeaveNum + "\n" +
                     "\n\n" + beginDate.toString() + " ~ " + midDate.toString() +

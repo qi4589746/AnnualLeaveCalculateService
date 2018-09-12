@@ -1,15 +1,16 @@
-package com.mycena.utils.calculator.util;
+package com.mycena.utils.calculator.service;
 
 
 import com.mycena.utils.calculator.entity.FormattedDate;
 import com.mycena.utils.calculator.entity.LeaveFormat;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AnnualLeaveUtil {
 
     static final int minuteOfDay = 1400;
 
-    static public float getLeaveDays(FormattedDate seniority)
-    {
+    public float getLeaveDays(FormattedDate seniority) {
         if(seniority.year == 0 && seniority.month >= 6)
             return 3;
 
@@ -29,8 +30,7 @@ public class AnnualLeaveUtil {
         if(seniority.year >=3)
             return 14f;
 
-        switch (seniority.year)
-        {
+        switch (seniority.year) {
             case 1:
                 return 7f;
             case 2:
@@ -42,19 +42,7 @@ public class AnnualLeaveUtil {
         return 0f;
     }
 
-    static public void printFormatTime(float leaveNum) {
-        int day = (int) leaveNum;
-
-        float minute = (leaveNum - day) * minuteOfDay;
-
-        int hour = (int) (minute / 60);
-
-        minute = minute - (hour * 60);
-        System.out.println("特修： " + day + " 天 " + hour + " 時 " + (int) (minute) + " 分.");
-
-    }
-
-    static public LeaveFormat convertFloatToLeaveFormat(float leaveNum) {
+    public LeaveFormat convertFloatToLeaveFormat(float leaveNum) {
         int day = (int) leaveNum;
 
         float minute = (leaveNum - day) * minuteOfDay;
