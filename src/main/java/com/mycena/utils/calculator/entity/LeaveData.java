@@ -11,12 +11,12 @@ public class LeaveData {
     public FormattedDate beginDate;
     public FormattedDate endDate;
     public FormattedDate midDate;
-    public LeaveFormat onePartLeave;
-    public LeaveFormat twoPartLeave;
+    public int onePartLeave;
+    public int twoPartLeave;
     public float totalLeaveNum;
 
 
-    public LeaveData(FormattedDate beginDate, FormattedDate endDate, FormattedDate midDate, LeaveFormat onePartLeave, LeaveFormat twoPartLeave, float totalLeaveNum) {
+    public LeaveData(FormattedDate beginDate, FormattedDate endDate, FormattedDate midDate, int onePartLeave, int twoPartLeave, float totalLeaveNum) {
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.midDate = midDate;
@@ -36,9 +36,9 @@ public class LeaveData {
         } else {
             out = "總共: " + totalLeaveNum + "\n" +
                     "\n\n" + beginDate.toString() + " ~ " + midDate.toString() +
-                    "\n" + onePartLeave.toString() +
+                    "\n" + onePartLeave +
                     "\n\n" + midDate.getTomorrow().toString() + " ~ " + endDate.toString() +
-                    "\n" + twoPartLeave.toString()
+                    "\n" + twoPartLeave
             ;
 
         }

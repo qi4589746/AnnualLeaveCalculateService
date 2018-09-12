@@ -2,6 +2,7 @@ package com.mycena.utils.controller;
 
 
 import com.mycena.utils.calculator.entity.FormattedDate;
+import com.mycena.utils.calculator.entity.LeaveData;
 import com.mycena.utils.calculator.service.AnnualLeaveCalculator;
 import com.mycena.utils.entity.Group;
 import com.mycena.utils.entity.GroupUser;
@@ -39,10 +40,25 @@ public class GroupUserPayLeaveController {
         if (group.annualLeaveType == 0)
             calculateDate.month = onBoardDate.month;
 
-        int totalLeave = annualLeaveCalculator.getTotalLeaveNum(onBoardDate, calculateDate);
+        LeaveData leaveData = annualLeaveCalculator.getTotalLeaveNum(onBoardDate, calculateDate);
+        GroupUserPayLeave groupUserPayLeave = null;
 
-        GroupUserPayLeave groupUserPayLeave = new GroupUserPayLeave(group.id, groupUser.userId, LeaveType.ANNUAL_LEAVE
-                , totalLeave, totalLeave, , calculateDate.getEndDateOfOneYear().convertToLong());
+        if (leaveData.onePartLeave != 0) {
+            groupUserPayLeave = new GroupUserPayLeave(group.id, groupUser.userId, LeaveType.ANNUAL_LEAVE
+                    , leaveData.onePartLeave, leaveData.onePartLeave, leaveData.beginDate.convertToLong(), leaveData.midDate.convertToLong());
+        }
+        if (groupUserPayLeave != null) {
+            groupUserPayLeaveRepository.save(groupUserPayLeave);
+            groupUserPayLeave = null;
+        }
+
+        if (leaveData.twoPartLeave != 0) {
+            groupUserPayLeave = new GroupUserPayLeave(group.id, groupUser.userId, LeaveType.ANNUAL_LEAVE
+                    , leaveData.twoPartLeave, leaveData.twoPartLeave, leaveData.midDate.getTomorrow().convertToLong(), leaveData.endDate.convertToLong());
+        }
+        if (groupUserPayLeave != null)
+            groupUserPayLeaveRepository.save(groupUserPayLeave);
+
 
         return new ResponseEntity<String>(HttpStatus.OK);
     }

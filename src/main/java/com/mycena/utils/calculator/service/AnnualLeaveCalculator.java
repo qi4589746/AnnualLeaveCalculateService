@@ -1,6 +1,7 @@
 package com.mycena.utils.calculator.service;
 
 import com.mycena.utils.calculator.entity.FormattedDate;
+import com.mycena.utils.calculator.entity.LeaveData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +12,11 @@ public class AnnualLeaveCalculator {
     @Autowired
     AnnualLeaveUtil annualLeaveUtil;
 
-    public int getTotalLeaveNum(FormattedDate onBoardDate, FormattedDate calculateDate) {
-        float totalLeaveDay = 0.0f;
+    public LeaveData getTotalLeaveNum(FormattedDate onBoardDate, FormattedDate calculateDate) {
+        float partOneLeaveNum = 0.0f;
+        float partTwoLeaveNum = 0.0f;
+        int partOneLeaveFormat;
+        int partTwoLeaveFormat;
 
         FormattedDate seniority1 = getSeniority(onBoardDate, calculateDate);
         float leaveNum1 = annualLeaveUtil.getLeaveDays(seniority1);
@@ -27,11 +31,13 @@ public class AnnualLeaveCalculator {
             FormattedDate sixSeniorityDate = onBoardDate.getAfterSixMonthDate();
             if (leaveNum2 == 7) {
                 float partOneWorkRate = getGeneralFirstPartWorkRate(onBoardDate, calculateDate);
-
-                totalLeaveDay = 3 + (leaveNum2 * (1 - partOneWorkRate));
-
+                partOneLeaveNum = 3;
+                partTwoLeaveNum = (leaveNum2 * (1 - partOneWorkRate));
+                partOneLeaveFormat = annualLeaveUtil.convertFloatToMinute(partOneLeaveNum);
+                partTwoLeaveFormat = annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum);
+                return new LeaveData(sixSeniorityDate, calculateDate2, onBoardDate.getNextYearDate(), partOneLeaveFormat, partTwoLeaveFormat, partOneLeaveNum + partTwoLeaveNum);
             } else if (leaveNum2 == 3) {
-                float denominator;
+                float denominator = 0;
                 FormattedDate sixMonthInterval = getSeniority(sixSeniorityDate, calculateDate2);
 
                 if (sixSeniorityDate.day < calculateDate2.day)
@@ -42,15 +48,23 @@ public class AnnualLeaveCalculator {
                     else
                         denominator = YearMonth.of(calculateDate2.year, calculateDate2.month - 1).lengthOfMonth();
                 }
-
-                totalLeaveDay = ((sixMonthInterval.month + (sixMonthInterval.day) / denominator) / 6) * 3;
+                partOneLeaveNum = 0;
+                partTwoLeaveNum = ((sixMonthInterval.month + (sixMonthInterval.day) / denominator) / 6) * 3;
+                partOneLeaveFormat = annualLeaveUtil.convertFloatToMinute(partOneLeaveNum);
+                partTwoLeaveFormat = annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum);
+                return new LeaveData(calculateDate, calculateDate2, onBoardDate.getAfterSixMonthDate(), partOneLeaveFormat, partTwoLeaveFormat, partOneLeaveNum + partTwoLeaveNum);
             }
-        } else {
-            float partOneWorkRate = getGeneralFirstPartWorkRate(onBoardDate, calculateDate);
-            totalLeaveDay = (partOneWorkRate * leaveNum1) + (leaveNum2 * (1 - partOneWorkRate));
         }
 
-        return annualLeaveUtil.convertFloatToMinute(totalLeaveDay);
+        float partOneWorkRate = getGeneralFirstPartWorkRate(onBoardDate, calculateDate);
+        partOneLeaveNum = (partOneWorkRate * leaveNum1);
+        partTwoLeaveNum = (leaveNum2 * (1 - partOneWorkRate));
+        partOneLeaveFormat = annualLeaveUtil.convertFloatToMinute(partOneLeaveNum);
+        partTwoLeaveFormat = annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum);
+        if (leaveNum1 == leaveNum2)
+            onBoardDate = null;
+        return new LeaveData(calculateDate, calculateDate2, onBoardDate, partOneLeaveFormat, partTwoLeaveFormat, partOneLeaveNum + partTwoLeaveNum);
+
 
     }
 
