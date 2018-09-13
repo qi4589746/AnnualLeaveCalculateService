@@ -5,13 +5,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
 @Entity
-@Table(name = GroupUserPayLeave.TABLE_NAME, uniqueConstraints = {@UniqueConstraint(columnNames = {"group_id", "no"})})
+@Table(name = GroupUserPayLeave.TABLE_NAME)
 @IdGenerator.Config(prefix = "group")
 public class GroupUserPayLeave {
     public static final String TABLE_NAME = "group_user_pay_leave";

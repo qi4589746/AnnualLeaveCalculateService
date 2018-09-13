@@ -21,6 +21,8 @@ import java.util.Objects;
 @Table(name = Group.TABLE_NAME)
 public class Group {
     public static final String TABLE_NAME = "_group";
+
+    @Id
     @Column(name = "id", nullable = false, unique = true, updatable = false)
     public String id;
     /**
