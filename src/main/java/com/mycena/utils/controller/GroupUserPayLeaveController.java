@@ -79,8 +79,6 @@ public class GroupUserPayLeaveController {
         if (leaveData.onePartLeave != 0) {
             groupUserPayLeave = new GroupUserPayLeave(groupId, userId, LeaveType.ANNUAL_LEAVE
                     , leaveData.onePartLeave, leaveData.onePartLeave, leaveData.beginDate.convertToLong(), leaveData.midDate.convertToLong());
-        }
-        if (groupUserPayLeave != null) {
             groupUserPayLeaveRepository.save(groupUserPayLeave);
             groupUserPayLeave = null;
         }
@@ -88,10 +86,9 @@ public class GroupUserPayLeaveController {
         if (leaveData.twoPartLeave != 0) {
             groupUserPayLeave = new GroupUserPayLeave(groupId, userId, LeaveType.ANNUAL_LEAVE
                     , leaveData.twoPartLeave, leaveData.twoPartLeave, leaveData.midDate.getTomorrow().convertToLong(), leaveData.endDate.convertToLong());
-        }
-        if (groupUserPayLeave != null)
             groupUserPayLeaveRepository.save(groupUserPayLeave);
-
+            groupUserPayLeave = null;
+        }
 
         return new ResponseEntity<String>(HttpStatus.OK);
     }
