@@ -21,7 +21,6 @@ public class AnnualLeaveCalculator {
         FormattedDate seniority1 = getSeniority(onBoardDate, calculateDate);
         float leaveNum1 = annualLeaveUtil.getLeaveDays(seniority1);
 
-
         FormattedDate calculateDate2 = calculateDate.getEndDateOfOneYear();
         FormattedDate seniority2 = getSeniority(onBoardDate, calculateDate2);
         float leaveNum2 = annualLeaveUtil.getLeaveDays(seniority2);
@@ -58,9 +57,13 @@ public class AnnualLeaveCalculator {
 
         float partOneWorkRate = getGeneralFirstPartWorkRate(onBoardDate, calculateDate);
         partOneLeaveNum = (partOneWorkRate * leaveNum1);
+        if (leaveNum1 == 3)
+            partOneLeaveNum *= 2;
         partTwoLeaveNum = (leaveNum2 * (1 - partOneWorkRate));
         partOneLeaveFormat = annualLeaveUtil.convertFloatToMinute(partOneLeaveNum);
         partTwoLeaveFormat = annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum);
+        if (onBoardDate.year < calculateDate.year)
+            onBoardDate.year = calculateDate.year;
         if (leaveNum1 == leaveNum2)
             onBoardDate = null;
         return new LeaveData(calculateDate, calculateDate2, onBoardDate, partOneLeaveFormat, partTwoLeaveFormat, partOneLeaveNum + partTwoLeaveNum);
@@ -97,23 +100,24 @@ public class AnnualLeaveCalculator {
 
     private float getGeneralFirstPartWorkRate(FormattedDate onBoardDate, FormattedDate calculateDate) {
         FormattedDate tempOnBoardDate = new FormattedDate(onBoardDate);
+        FormattedDate tempCalculateDate = new FormattedDate(calculateDate);
         int denominator;
         FormattedDate seniority;
-        if (tempOnBoardDate.month > calculateDate.month) {
-            tempOnBoardDate.year = calculateDate.year;
+        if (tempOnBoardDate.month > tempCalculateDate.month) {
+            tempOnBoardDate.year = tempCalculateDate.year;
         } else {
-            tempOnBoardDate.year = calculateDate.year + 1;
+            tempOnBoardDate.year = tempCalculateDate.year + 1;
         }
 
-        seniority = getSeniority(calculateDate, tempOnBoardDate);
+        seniority = getSeniority(tempCalculateDate, tempOnBoardDate);
 
-        calculateDate.month += seniority.month;
-        if (calculateDate.month > 12) {
-            calculateDate.year += 1;
-            calculateDate.month -= 12;
+        tempCalculateDate.month += seniority.month;
+        if (tempCalculateDate.month > 12) {
+            tempCalculateDate.year += 1;
+            tempCalculateDate.month -= 12;
         }
+        denominator = YearMonth.of(tempCalculateDate.year, tempCalculateDate.month).lengthOfMonth();
 
-        denominator = YearMonth.of(calculateDate.year, calculateDate.month).lengthOfMonth();
         return ((float) seniority.month + ((float) seniority.day / (float) denominator)) / 12;
     }
 

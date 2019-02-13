@@ -3,9 +3,10 @@ package com.mycena.utils.entity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
 import java.util.Objects;
+
+//import javax.persistence.AttributeConverter;
+//import javax.persistence.Converter;
 
 public enum LeaveType {
     /**
@@ -70,17 +71,17 @@ public enum LeaveType {
         return null;
     }
 
-    @Converter
-    public static class TypeConverter implements AttributeConverter<LeaveType, Integer> {
-        @Override
-        public Integer convertToDatabaseColumn(LeaveType attribute) {
-            if (attribute == null) return null;
-            return attribute.value;
-        }
-
-        @Override
-        public LeaveType convertToEntityAttribute(Integer dbData) {
-            return LeaveType.fromValue(dbData);
-        }
-    }
+//    @Converter
+//    public static class TypeConverter implements AttributeConverter<LeaveType, Integer> {
+//        @Override
+//        public Integer convertToDatabaseColumn(LeaveType attribute) {
+//            if (attribute == null) return null;
+//            return attribute.value;
+//        }
+//
+//        @Override
+//        public LeaveType convertToEntityAttribute(Integer dbData) {
+//            return LeaveType.fromValue(dbData);
+//        }
+//    }
 }

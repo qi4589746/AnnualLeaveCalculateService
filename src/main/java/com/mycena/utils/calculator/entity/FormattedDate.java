@@ -2,6 +2,7 @@ package com.mycena.utils.calculator.entity;
 
 import java.time.YearMonth;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 public class FormattedDate {
     public int year;
@@ -9,11 +10,11 @@ public class FormattedDate {
     public int day;
 
     public FormattedDate(Long time) {
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
         calendar.setTimeInMillis(time);
 
         this.year = calendar.get(Calendar.YEAR);
-        this.month = calendar.get(Calendar.MONDAY);
+        this.month = calendar.get(Calendar.MONDAY) + 1;
         this.day = calendar.get(Calendar.DATE);
     }
 
@@ -30,7 +31,7 @@ public class FormattedDate {
     }
 
     public Long convertToLong() {
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
         calendar.set(year, month, day, 23, 0);
         return calendar.getTimeInMillis();
     }
@@ -131,6 +132,12 @@ public class FormattedDate {
         }
 
         return new FormattedDate(tempYear, tempMonth, tempDay);
+    }
+
+    public long toMillisecond() {
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
+        cal.set(year, month, day);
+        return cal.getTimeInMillis();
     }
 
 }
