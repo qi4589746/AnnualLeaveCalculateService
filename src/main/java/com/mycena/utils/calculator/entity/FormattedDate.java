@@ -30,9 +30,15 @@ public class FormattedDate {
         this.day = formattedDate.day;
     }
 
-    public Long convertToLong() {
+    public Long convertToLongAndSetToTheEndMillisecond() {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
-        calendar.set(year, month, day, 23, 0);
+        calendar.set(year, month - 1, day, 23, 59, 59);
+        return calendar.getTimeInMillis();
+    }
+
+    public Long convertToLongAndSetToTheBeginMillisecond() {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
+        calendar.set(year, month - 1, day, 0, 0, 0);
         return calendar.getTimeInMillis();
     }
 
@@ -77,7 +83,22 @@ public class FormattedDate {
     }
 
     public FormattedDate getNextYearDate() {
-        return new FormattedDate(year + 1, month,day);
+        FormattedDate temp = new FormattedDate(year + 1, month, day);
+        return checkDayOfTheMonth(temp);
+    }
+
+    public FormattedDate getPreviousYearDate() {
+        FormattedDate temp = new FormattedDate(year - 1, month, day);
+        return checkDayOfTheMonth(temp);
+    }
+
+    private FormattedDate checkDayOfTheMonth(FormattedDate temp) {
+        int maxDay = YearMonth.of(temp.year, temp.month).lengthOfMonth();
+        if (day > maxDay) {
+            temp.month += 1;
+            temp.day = day - maxDay;
+        }
+        return temp;
     }
 
     public FormattedDate getEndDateOfOneYear()
@@ -86,23 +107,8 @@ public class FormattedDate {
         int tempMonth = month;
         int tempDay = day;
         tempYear += 1;
-        tempDay -= 1;
 
-        if(tempDay == 0)
-        {
-            tempMonth -= 1;
-            if(tempMonth == 0)
-            {
-                tempYear -= 1;
-                tempMonth = 12;
-                tempDay = 31;
-                return new FormattedDate(tempYear, tempMonth, tempDay);
-            }
-            YearMonth yearMonthObject = YearMonth.of(tempYear, tempMonth);
-            tempDay = yearMonthObject.lengthOfMonth();
-        }
-
-        return new FormattedDate(tempYear, tempMonth, tempDay);
+        return checkDayOfTheMonth(new FormattedDate(tempYear, tempMonth, tempDay));
     }
 
     public FormattedDate getAfterSixMonthDate() {
@@ -110,14 +116,6 @@ public class FormattedDate {
         int tempMonth = month;
         int tempDay = day;
         tempMonth += 6;
-        tempDay -= 1;
-
-        if (tempDay == 0)
-        {
-            tempMonth -= 1;
-            if(tempMonth==0)
-                tempYear -= 1;
-        }
 
         if (tempMonth > 12) {
             tempYear += 1;
@@ -126,18 +124,29 @@ public class FormattedDate {
 
         YearMonth yearMonthObject = YearMonth.of(tempYear, tempMonth);
 
-        if (yearMonthObject.lengthOfMonth() < tempDay) {
-            tempDay = 1;
-            tempMonth += 1;
-        }
-
-        return new FormattedDate(tempYear, tempMonth, tempDay);
+        return checkDayOfTheMonth(new FormattedDate(tempYear, tempMonth, tempDay));
     }
 
-    public long toMillisecond() {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
-        cal.set(year, month, day);
-        return cal.getTimeInMillis();
+    public FormattedDate getNextAimMonthAndDay(FormattedDate aimDate) {
+        int tempYear = this.year;
+        if ((aimDate.month < this.month) || (aimDate.month == this.month && aimDate.day < this.day))
+            tempYear += 1;
+        return checkDayOfTheMonth(new FormattedDate(tempYear, aimDate.month, aimDate.day));
+    }
+
+    public FormattedDate setYear(int year) {
+        this.year = year;
+        return this;
+    }
+
+    public FormattedDate setMonth(int month) {
+        this.month = month;
+        return this;
+    }
+
+    public FormattedDate setDay(int day) {
+        this.day = day;
+        return this;
     }
 
 }

@@ -2,61 +2,51 @@ package com.mycena.utils.calculator.service;
 
 
 import com.mycena.utils.calculator.entity.FormattedDate;
-import com.mycena.utils.calculator.entity.LeaveFormat;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 public class AnnualLeaveUtil {
 
     static final int minuteOfDay = 1440;
-    static final int minuteOfHour = 60;
 
-    public float getLeaveDays(FormattedDate seniority) {
+    public int getLeaveDays(FormattedDate seniority) {
         if(seniority.year == 0 && seniority.month >= 6)
             return 3;
 
         if(seniority.year >= 10){
-//            System.out.println("seniority: " + seniority);
-            if(seniority.month == 0 && seniority.day == 0)
-                return 15f;
-            float leaveNum = 15 + seniority.year - 10 + seniority.month / 12.0f + seniority.day / 30f;
+//            if(seniority.month == 0 && seniority.day == 0)
+//                return 15f;
+//            float leaveNum = 15 + seniority.year - 10 + seniority.month / 12.0f + seniority.day / 30f;
+            int leaveNum = 15 + seniority.year - 10;
             if (leaveNum > 30)
-                return 30f;
+                return 30;
             return leaveNum;
         }
 
         if(seniority.year >=5)
-            return 15f;
+            return 15;
 
         if(seniority.year >=3)
-            return 14f;
+            return 14;
 
         switch (seniority.year) {
             case 1:
-                return 7f;
+                return 7;
             case 2:
-                return 10f;
+                return 10;
             case 0:
                 if(seniority.month >= 6)
-                    return 3f;
+                    return 3;
         }
-        return 0f;
+        return 0;
     }
 
     public int convertFloatToMinute(float totalLeaveDay) {
+        BigDecimal bigDecimal = new BigDecimal(totalLeaveDay);
+        totalLeaveDay = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
         return (int) (totalLeaveDay * minuteOfDay);
-    }
-
-    public LeaveFormat convertFloatToLeaveFormat(float leaveNum) {
-        int day = (int) leaveNum;
-
-        float minute = (leaveNum - day) * minuteOfDay;
-
-        int hour = (int) (minute / 60);
-
-        minute = minute - (hour * 60);
-        return new LeaveFormat(day, hour, (int) minute);
-
     }
 
 }

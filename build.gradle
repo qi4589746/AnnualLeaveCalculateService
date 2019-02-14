@@ -24,18 +24,14 @@ repositories {
 }
 
 ext {
-        swagger_version = "2.9.2"
-        lombok_version = "1.18.0"
+    swagger_version = "2.9.2"
+    lombok_version = "1.18.0"
     rxjava_version = "2.2.0"
-    kafka_version = "1.1.0"
-    jackson_version = "2.9.6"
-    retrofit_version = "2.4.0"
 }
 
 
 dependencies {
-//    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-//    compile('org.springframework.boot:spring-boot-starter-jdbc')
+
     compile('org.springframework.boot:spring-boot-starter-web-services')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
@@ -44,6 +40,5 @@ dependencies {
     compile "io.springfox:springfox-swagger-ui:$swagger_version"
 
     compile("org.projectlombok:lombok:$lombok_version")
-//    compile('mysql:mysql-connector-java')
 
 }
