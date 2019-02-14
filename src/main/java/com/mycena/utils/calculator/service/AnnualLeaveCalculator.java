@@ -15,8 +15,8 @@ public class AnnualLeaveCalculator {
 
     public LinkedList<LeaveData> getTotalLeaveNum(FormattedDate onBoardDate, FormattedDate calculateDate) {
         LinkedList<LeaveData> leaveDataLinkedList = new LinkedList<>();
-        float partOneLeaveNum = 0.0f;
-        float partTwoLeaveNum = 0.0f;
+        float partOneLeaveNum;
+        float partTwoLeaveNum;
         FormattedDate sixSeniorityDate = onBoardDate.getAfterSixMonthDate();
         FormattedDate seniority1 = getSeniority(onBoardDate, calculateDate);
         int leaveNum1 = annualLeaveUtil.getLeaveDays(seniority1);
@@ -30,7 +30,7 @@ public class AnnualLeaveCalculator {
             case 0:
                 return leaveDataLinkedList;
             case 3:
-                float denominator = 0;
+                float denominator;
                 FormattedDate sixMonthInterval = getSeniority(sixSeniorityDate, calculateDate2);
                 if (sixSeniorityDate.day < calculateDate2.day)
                     denominator = YearMonth.of(calculateDate2.year, calculateDate2.month).lengthOfMonth();
@@ -50,8 +50,9 @@ public class AnnualLeaveCalculator {
                 partTwoLeaveNum = (leaveNum2 * (1 - partOneWorkRate));
                 leaveDataLinkedList.add(new LeaveData(sixSeniorityDate.convertToLongAndSetToTheBeginMillisecond(),
                         onBoardDate.getNextYearDate().getYesterday().convertToLongAndSetToTheEndMillisecond(), annualLeaveUtil.convertFloatToMinute(partOneLeaveNum)));
-                leaveDataLinkedList.add(new LeaveData(onBoardDate.getNextYearDate().convertToLongAndSetToTheBeginMillisecond(),
-                        calculateDate2.getYesterday().convertToLongAndSetToTheEndMillisecond(), annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum)));
+                if (annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum) > 0)
+                    leaveDataLinkedList.add(new LeaveData(onBoardDate.getNextYearDate().convertToLongAndSetToTheBeginMillisecond(),
+                            calculateDate2.getYesterday().convertToLongAndSetToTheEndMillisecond(), annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum)));
                 return leaveDataLinkedList;
             default:
                 LinkedList<LeaveData> previousLeaveData = getTotalLeaveNum(onBoardDate, calculateDate.getPreviousYearDate());
