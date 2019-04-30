@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Calendar;
 import java.util.LinkedList;
-import java.util.TimeZone;
 
 @RestController
 @CommonsLog
@@ -28,11 +26,11 @@ public class GroupUserPayLeaveController {
     @PostMapping(value = "/calculateAnnualLeave")
     public ResponseEntity<LinkedList<LeaveData>> calculateAnnualLeave(@RequestBody RequestFormat requestFormat) {
 
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
         FormattedDate onBoardDate = new FormattedDate(requestFormat.arrivalDate);
         FormattedDate calculateDate = new FormattedDate(requestFormat.calculateDate); //每月第一天
         LinkedList<LeaveData> leaveDataLinkedList = annualLeaveCalculator.getTotalLeaveNum(onBoardDate, calculateDate);
 
+//        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
 //        SimpleDateFormat sdf = new SimpleDateFormat("E yyyy/MM/dd");
 //        System.out.println("*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*");
 //            for (LeaveData leaveData:

@@ -33,13 +33,15 @@ public class FormattedDate {
     public Long convertToLongAndSetToTheEndMillisecond() {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
         calendar.set(year, month - 1, day, 23, 59, 59);
-        return calendar.getTimeInMillis();
+        long millisecond = (calendar.getTimeInMillis() / 1000);
+        return millisecond * 1000 + 999;
     }
 
     public Long convertToLongAndSetToTheBeginMillisecond() {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
         calendar.set(year, month - 1, day, 0, 0, 0);
-        return calendar.getTimeInMillis();
+        long millisecond = (calendar.getTimeInMillis() / 1000);
+        return millisecond * 1000;
     }
 
     public FormattedDate getYesterday() {
@@ -122,14 +124,12 @@ public class FormattedDate {
             tempMonth -= 12;
         }
 
-        YearMonth yearMonthObject = YearMonth.of(tempYear, tempMonth);
-
         return checkDayOfTheMonth(new FormattedDate(tempYear, tempMonth, tempDay));
     }
 
     public FormattedDate getNextAimMonthAndDay(FormattedDate aimDate) {
         int tempYear = this.year;
-        if ((aimDate.month < this.month) || (aimDate.month == this.month && aimDate.day < this.day))
+        if ((aimDate.month < this.month) || (aimDate.month == this.month && aimDate.day <= this.day))
             tempYear += 1;
         return checkDayOfTheMonth(new FormattedDate(tempYear, aimDate.month, aimDate.day));
     }
