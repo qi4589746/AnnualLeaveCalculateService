@@ -105,18 +105,18 @@ public class FormattedDate {
 
     public FormattedDate getEndDateOfOneYear()
     {
-        int tempYear = year;
-        int tempMonth = month;
-        int tempDay = day;
+        int tempYear = this.year;
+        int tempMonth = this.month;
+        int tempDay = this.day;
         tempYear += 1;
 
         return checkDayOfTheMonth(new FormattedDate(tempYear, tempMonth, tempDay));
     }
 
     public FormattedDate getAfterSixMonthDate() {
-        int tempYear = year;
-        int tempMonth = month;
-        int tempDay = day;
+        int tempYear = this.year;
+        int tempMonth = this.month;
+        int tempDay = this.day;
         tempMonth += 6;
 
         if (tempMonth > 12) {

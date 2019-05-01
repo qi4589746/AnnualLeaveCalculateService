@@ -44,9 +44,10 @@ public class AnnualLeaveUtil {
     }
 
     public int convertFloatToMinute(float totalLeaveDay) {
+        double totalLeaveDay_doubleType = totalLeaveDay;
         BigDecimal bigDecimal = new BigDecimal(totalLeaveDay);
-        totalLeaveDay = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-        return (int) (totalLeaveDay * minuteOfDay);
+        totalLeaveDay_doubleType = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+        return (int) (totalLeaveDay_doubleType * minuteOfDay);
     }
 
 }
