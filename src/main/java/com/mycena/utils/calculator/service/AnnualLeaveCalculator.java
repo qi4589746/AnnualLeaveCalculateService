@@ -60,11 +60,12 @@ public class AnnualLeaveCalculator {
                 leaveDataLinkedList.add(new LeaveData(sixSeniorityDate.convertToLongAndSetToTheBeginMillisecond(),
                         onBoardDate.getNextYearDate().getYesterday().convertToLongAndSetToTheEndMillisecond(),
                         annualLeaveUtil.convertFloatToMinute(partOneLeaveNum)));
-                if (annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum) > 0) {
+                if (annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum) > 0 && (calculateDate.month != onBoardDate.month && calculateDate.day != onBoardDate.day)) {
 //                    leaveDataLinkedList.add(new LeaveData(onBoardDate.getNextYearDate().convertToLongAndSetToTheBeginMillisecond(),
 //                            onBoardDate.getNextYearDate().getNextAimMonthAndDay(onBoardDate).getYesterday().convertToLongAndSetToTheEndMillisecond(),
 //                            annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum)));
                     leaveDataLinkedList.add(new LeaveData(onBoardDate.getNextYearDate().convertToLongAndSetToTheBeginMillisecond(),
+//                            onBoardDate.getNextYearDate().getNextAimMonthAndDay(calculateDate).getYesterday().convertToLongAndSetToTheEndMillisecond(),
                             calculateDate2.getYesterday().convertToLongAndSetToTheEndMillisecond(),
                             annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum)));
                 }
