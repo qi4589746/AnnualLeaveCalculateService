@@ -59,6 +59,44 @@ public class AnnualLeaveCalculatorTest {
         //TODO more assert
     }
 
+    @Test
+    public void test4() {
+        LocalDate onBoardLocalDate = LocalDate.of(2019, 4, 1);
+        LocalDate calculateLocalDate = LocalDate.of(2019, 5, 1);
+        List<LeaveData> list = wrapForGetTotalLeaveNum(onBoardLocalDate, calculateLocalDate);
+        print(list);
+
+        Assert.assertEquals(2, list.size());
+
+        LeaveData leaveData1 = list.get(0);
+        Assert.assertEquals(LocalDate.of(2019, 10, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getActiveDateTime());
+        Assert.assertEquals(LocalDate.of(2020, 3, 31).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getExpireDateTime());
+
+        LeaveData leaveData2 = list.get(1);
+        Assert.assertEquals(LocalDate.of(2012, 4, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData2.getActiveDateTime());
+        Assert.assertEquals(LocalDate.of(2020, 4, 30).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData2.getExpireDateTime());
+        //TODO more assert
+    }
+
+    @Test
+    public void test5() {
+        LocalDate onBoardLocalDate = LocalDate.of(2019, 4, 1);
+        LocalDate calculateLocalDate = LocalDate.of(2019, 5, 7);
+        List<LeaveData> list = wrapForGetTotalLeaveNum(onBoardLocalDate, calculateLocalDate);
+        print(list);
+
+        Assert.assertEquals(2, list.size());
+
+        LeaveData leaveData1 = list.get(0);
+        Assert.assertEquals(LocalDate.of(2019, 10, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getActiveDateTime());
+        Assert.assertEquals(LocalDate.of(2020, 3, 31).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getExpireDateTime());
+
+        LeaveData leaveData2 = list.get(1);
+        Assert.assertEquals(LocalDate.of(2020, 4, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData2.getActiveDateTime());
+        Assert.assertEquals(LocalDate.of(2020, 5, 6).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData2.getExpireDateTime());
+        //TODO more assert
+    }
+
     private List<LeaveData> wrapForGetTotalLeaveNum(LocalDate onBoardLocalDate, LocalDate calculateLocalDate) {
         FormattedDate onBoardDate = new FormattedDate(onBoardLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli());
         FormattedDate calculateDate = new FormattedDate(calculateLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli());
