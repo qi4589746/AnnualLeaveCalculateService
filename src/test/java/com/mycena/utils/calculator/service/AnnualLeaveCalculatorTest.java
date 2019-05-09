@@ -32,7 +32,7 @@ public class AnnualLeaveCalculatorTest {
         Assert.assertEquals(1, list.size());
 
         LeaveData leaveData1 = list.get(0);
-        Assert.assertEquals(3, Duration.ofMinutes(leaveData1.getTotalMinute()).toDays());
+        Assert.assertEquals(Duration.ofDays(3).toMinutes(), leaveData1.getTotalMinute());
         Assert.assertEquals(LocalDate.of(2019, 11, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getActiveDateTime());
         Assert.assertEquals(LocalDate.of(2020, 4, 30).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getExpireDateTime());
     }
@@ -69,11 +69,12 @@ public class AnnualLeaveCalculatorTest {
         Assert.assertEquals(2, list.size());
 
         LeaveData leaveData1 = list.get(0);
+        Assert.assertEquals(Duration.ofDays(3).toMinutes(), leaveData1.getTotalMinute());
         Assert.assertEquals(LocalDate.of(2019, 10, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getActiveDateTime());
         Assert.assertEquals(LocalDate.of(2020, 3, 31).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getExpireDateTime());
 
         LeaveData leaveData2 = list.get(1);
-        Assert.assertEquals(LocalDate.of(2012, 4, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData2.getActiveDateTime());
+        Assert.assertEquals(LocalDate.of(2020, 4, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData2.getActiveDateTime());
         Assert.assertEquals(LocalDate.of(2020, 4, 30).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData2.getExpireDateTime());
         //TODO more assert
     }
@@ -88,6 +89,7 @@ public class AnnualLeaveCalculatorTest {
         Assert.assertEquals(2, list.size());
 
         LeaveData leaveData1 = list.get(0);
+        Assert.assertEquals(Duration.ofDays(3).toMinutes(), leaveData1.getTotalMinute());
         Assert.assertEquals(LocalDate.of(2019, 10, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getActiveDateTime());
         Assert.assertEquals(LocalDate.of(2020, 3, 31).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getExpireDateTime());
 
