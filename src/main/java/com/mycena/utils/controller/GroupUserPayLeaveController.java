@@ -27,7 +27,7 @@ public class GroupUserPayLeaveController {
     public ResponseEntity<LinkedList<LeaveData>> calculateAnnualLeave(@RequestBody RequestFormat requestFormat) {
 
         FormattedDate onBoardDate = new FormattedDate(requestFormat.arrivalDate);
-        FormattedDate calculateDate = new FormattedDate(requestFormat.calculateDate); //每月第一天
+        FormattedDate calculateDate = new FormattedDate(requestFormat.calculateDate);
         LinkedList<LeaveData> leaveDataLinkedList = annualLeaveCalculator.getTotalLeaveNum(onBoardDate, calculateDate);
 
 //        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));

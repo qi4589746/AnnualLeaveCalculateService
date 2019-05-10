@@ -14,7 +14,7 @@ public class FormattedDate {
         calendar.setTimeInMillis(time);
 
         this.year = calendar.get(Calendar.YEAR);
-        this.month = calendar.get(Calendar.MONDAY) + 1;
+        this.month = calendar.get(Calendar.MONTH) + 1;
         this.day = calendar.get(Calendar.DATE);
     }
 

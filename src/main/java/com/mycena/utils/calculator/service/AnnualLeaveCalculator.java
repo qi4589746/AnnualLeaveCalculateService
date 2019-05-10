@@ -60,12 +60,8 @@ public class AnnualLeaveCalculator {
                 leaveDataLinkedList.add(new LeaveData(sixSeniorityDate.convertToLongAndSetToTheBeginMillisecond(),
                         onBoardDate.getNextYearDate().getYesterday().convertToLongAndSetToTheEndMillisecond(),
                         annualLeaveUtil.convertFloatToMinute(partOneLeaveNum)));
-                if (annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum) > 0 && (calculateDate.month != onBoardDate.month && calculateDate.day != onBoardDate.day)) {
-//                    leaveDataLinkedList.add(new LeaveData(onBoardDate.getNextYearDate().convertToLongAndSetToTheBeginMillisecond(),
-//                            onBoardDate.getNextYearDate().getNextAimMonthAndDay(onBoardDate).getYesterday().convertToLongAndSetToTheEndMillisecond(),
-//                            annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum)));
+                if (annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum) > 0 && !(calculateDate.month == onBoardDate.month && calculateDate.day == onBoardDate.day)) {
                     leaveDataLinkedList.add(new LeaveData(onBoardDate.getNextYearDate().convertToLongAndSetToTheBeginMillisecond(),
-//                            onBoardDate.getNextYearDate().getNextAimMonthAndDay(calculateDate).getYesterday().convertToLongAndSetToTheEndMillisecond(),
                             calculateDate2.getYesterday().convertToLongAndSetToTheEndMillisecond(),
                             annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum)));
                 }
@@ -79,17 +75,6 @@ public class AnnualLeaveCalculator {
                 float partOneLeaveNumInPreviousData = previousLeaveData.size() == 0 ? 0.0f : previousLeaveData.getLast().getTotalMinute() / 1440.0f;
                 partOneLeaveNum = leaveNum1 - partOneLeaveNumInPreviousData;
                 partTwoLeaveNum = (leaveNum2 * (1 - partOneWorkRate));
-//                if (state == 10 && annualLeaveUtil.convertFloatToMinute(partOneLeaveNumInPreviousData) > 0) {
-////                    leaveDataLinkedList.add(new LeaveData(sixSeniorityDate.convertToLongAndSetToTheBeginMillisecond(),
-////                            calculateDate.getYesterday().convertToLongAndSetToTheEndMillisecond(),
-////                            annualLeaveUtil.convertFloatToMinute(partOneLeaveNumInPreviousData)));
-//                    leaveDataLinkedList.add(new LeaveData(calculateDate.convertToLongAndSetToTheBeginMillisecond(),
-//                            calculateDate.getNextAimMonthAndDay(onBoardDate).getYesterday().convertToLongAndSetToTheEndMillisecond(),
-//                            annualLeaveUtil.convertFloatToMinute(partOneLeaveNum)));
-//                    leaveDataLinkedList.add(new LeaveData(calculateDate.getNextAimMonthAndDay(onBoardDate).convertToLongAndSetToTheEndMillisecond(),
-//                            calculateDate2.getYesterday().convertToLongAndSetToTheEndMillisecond(),
-//                            annualLeaveUtil.convertFloatToMinute(partTwoLeaveNum)));
-//                }
 
                 if (leaveNum1 == leaveNum2) {
                     leaveDataLinkedList.add(new LeaveData(calculateDate.convertToLongAndSetToTheBeginMillisecond(),
