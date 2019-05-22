@@ -15,12 +15,12 @@ public class LeaveData {
     //    @JsonIgnore
     int seniorityMonths;
 
-    float totalDay;
+    float totalDays;
 
-    public LeaveData(long activeDateTime, long expireDateTime, float totalDay, int seniorityMonths) {
+    public LeaveData(long activeDateTime, long expireDateTime, float totalDays, int seniorityMonths) {
         this.activeDateTime = activeDateTime;
         this.expireDateTime = expireDateTime;
-        this.totalDay = totalDay;
+        this.totalDays = totalDays;
         this.seniorityMonths = seniorityMonths;
     }
 
@@ -57,14 +57,14 @@ public class LeaveData {
         this.totalMinute = totalMinute;
     }
 
-    public float getTotalDay() {
+    public float getTotalDays() {
 //        return totalDay;
-        BigDecimal b = new BigDecimal(totalDay);
+        BigDecimal b = new BigDecimal(totalDays);
         return b.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
     }
 
-    public void setTotalDay(float totalDay) {
-        this.totalDay = totalDay;
+    public void setTotalDays(float totalDays) {
+        this.totalDays = totalDays;
     }
 
     public int getSeniorityMonths() {

@@ -76,7 +76,7 @@ public class AnnualLeaveCalculator {
 //                System.out.println("case default");
                 LinkedList<LeaveData> previousLeaveData = getTotalLeaveNum(onBoardDate, calculateDate.getPreviousYearDate());
 //                float partOneLeaveNumInPreviousData = previousLeaveData.size() == 0 ? 0.0f : previousLeaveData.getLast().getTotalMinute() / 1440.0f;
-                float partOneLeaveNumInPreviousData = previousLeaveData.size() == 0 ? 0.0f : previousLeaveData.getLast().getTotalDay();
+                float partOneLeaveNumInPreviousData = previousLeaveData.size() == 0 ? 0.0f : previousLeaveData.getLast().getTotalDays();
                 partOneLeaveNum = leaveNum1 == previousLeaveData.getLast().getSeniorityMonths() ? leaveNum1 - partOneLeaveNumInPreviousData : leaveNum1;
                 partTwoLeaveNum = (leaveNum2 * (1 - partOneWorkRate));
 
@@ -180,7 +180,7 @@ public class AnnualLeaveCalculator {
             calendar.setTimeInMillis(leaveData.getExpireDateTime());
             System.out.println("E: " + sdf.format(calendar.getTime()));
 //            System.out.println("Total: " + leaveData.getTotalMinute());
-            System.out.println("Total: " + leaveData.getTotalDay());
+            System.out.println("Total: " + leaveData.getTotalDays());
             System.out.println("LeaveType: " + leaveData.getSeniorityMonths());
             System.out.println("===========================================");
         }
