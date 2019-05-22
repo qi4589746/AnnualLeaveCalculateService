@@ -12,16 +12,16 @@ public class LeaveData {
     @JsonIgnore
     int totalMinute;
 
-    @JsonIgnore
-    int leaveType;
+    //    @JsonIgnore
+    int seniorityMonths;
 
-    float totalDay;
+    float totalDays;
 
-    public LeaveData(long activeDateTime, long expireDateTime, float totalDay, int leaveType) {
+    public LeaveData(long activeDateTime, long expireDateTime, float totalDays, int seniorityMonths) {
         this.activeDateTime = activeDateTime;
         this.expireDateTime = expireDateTime;
-        this.totalDay = totalDay;
-        this.leaveType = leaveType;
+        this.totalDays = totalDays;
+        this.seniorityMonths = seniorityMonths;
     }
 
     public LeaveData(long activeDateTime, long expireDateTime, int totalMinute) {
@@ -57,21 +57,21 @@ public class LeaveData {
         this.totalMinute = totalMinute;
     }
 
-    public float getTotalDay() {
+    public float getTotalDays() {
 //        return totalDay;
-        BigDecimal b = new BigDecimal(totalDay);
+        BigDecimal b = new BigDecimal(totalDays);
         return b.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
     }
 
-    public void setTotalDay(float totalDay) {
-        this.totalDay = totalDay;
+    public void setTotalDays(float totalDays) {
+        this.totalDays = totalDays;
     }
 
-    public int getLeaveType() {
-        return leaveType;
+    public int getSeniorityMonths() {
+        return seniorityMonths;
     }
 
-    public void setLeaveType(int leaveType) {
-        this.leaveType = leaveType;
+    public void setSeniorityMonths(int seniorityMonths) {
+        this.seniorityMonths = seniorityMonths;
     }
 }
