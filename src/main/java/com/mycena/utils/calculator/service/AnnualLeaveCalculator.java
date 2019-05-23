@@ -50,8 +50,8 @@ public class AnnualLeaveCalculator {
                 if (partTwoLeaveNum > 0)
                     leaveDataLinkedList.add(new LeaveData(sixSeniorityDate.convertToLongAndSetToTheBeginMillisecond(),
                             calculateDate2.getYesterday().convertToLongAndSetToTheEndMillisecond(),
-                            partTwoLeaveNum, 3));
-                showDate(leaveDataLinkedList);
+                            partTwoLeaveNum, 3, annualLeaveUtil.getSeniorityMonths(seniority2)));
+//                showDate(leaveDataLinkedList);
 //                System.out.println("case 3");
                 return leaveDataLinkedList;
             case 7: //到結算日期時，已經滿半年資歷小於半年，但到下次結算日期卻已經滿一年
@@ -60,12 +60,12 @@ public class AnnualLeaveCalculator {
                 partTwoLeaveNum = (leaveNum2 * (1 - partOneWorkRate));
                 leaveDataLinkedList.add(new LeaveData(sixSeniorityDate.convertToLongAndSetToTheBeginMillisecond(),
                         onBoardDate.getNextYearDate().getYesterday().convertToLongAndSetToTheEndMillisecond(),
-                        partOneLeaveNum, 3));
+                        partOneLeaveNum, 3, 6));
 //                System.out.println("partOneLeaveNum");
                 if (partTwoLeaveNum > 0 && !(calculateDate.month == onBoardDate.month && calculateDate.day == onBoardDate.day)) {
                     leaveDataLinkedList.add(new LeaveData(onBoardDate.getNextYearDate().convertToLongAndSetToTheBeginMillisecond(),
                             calculateDate2.getYesterday().convertToLongAndSetToTheEndMillisecond(),
-                            partTwoLeaveNum, leaveNum2));
+                            partTwoLeaveNum, leaveNum2, annualLeaveUtil.getSeniorityMonths(seniority2)));
 //                    System.out.println("partTwoLeaveNum");
                 }
 //                showDate(leaveDataLinkedList);
@@ -77,26 +77,26 @@ public class AnnualLeaveCalculator {
                 LinkedList<LeaveData> previousLeaveData = getTotalLeaveNum(onBoardDate, calculateDate.getPreviousYearDate());
 //                float partOneLeaveNumInPreviousData = previousLeaveData.size() == 0 ? 0.0f : previousLeaveData.getLast().getTotalMinute() / 1440.0f;
                 float partOneLeaveNumInPreviousData = previousLeaveData.size() == 0 ? 0.0f : previousLeaveData.getLast().getTotalDays();
-                partOneLeaveNum = leaveNum1 == previousLeaveData.getLast().getSeniorityMonths() ? leaveNum1 - partOneLeaveNumInPreviousData : leaveNum1;
+                partOneLeaveNum = previousLeaveData.size() == 0 ? leaveNum1 : (leaveNum1 == previousLeaveData.getLast().getLeaveType() ? leaveNum1 - partOneLeaveNumInPreviousData : leaveNum1);
                 partTwoLeaveNum = (leaveNum2 * (1 - partOneWorkRate));
 
                 if (leaveNum1 == leaveNum2) {
                     leaveDataLinkedList.add(new LeaveData(calculateDate.convertToLongAndSetToTheBeginMillisecond(),
                             calculateDate2.getYesterday().convertToLongAndSetToTheEndMillisecond(),
-                            partTwoLeaveNum, leaveNum2));
+                            partTwoLeaveNum, leaveNum2, annualLeaveUtil.getSeniorityMonths(seniority2)));
                 } else if (state >= 10) {
                     if (partOneLeaveNum > 0) {
 //                        System.out.println("partOneLeaveNum");
                         leaveDataLinkedList.add(new LeaveData(calculateDate.convertToLongAndSetToTheBeginMillisecond(),
                                 calculateDate.getNextAimMonthAndDay(onBoardDate).getYesterday().convertToLongAndSetToTheEndMillisecond(),
-                                partOneLeaveNum, leaveNum1));
+                                partOneLeaveNum, leaveNum1, annualLeaveUtil.getSeniorityMonths(seniority1)));
                     }
 
                     if (partTwoLeaveNum > 0 && !(calculateDate.month == onBoardDate.month && calculateDate.day == onBoardDate.day)) {
 //                        System.out.println("partTwoLeaveNum");
                         leaveDataLinkedList.add(new LeaveData(calculateDate.getNextAimMonthAndDay(onBoardDate).convertToLongAndSetToTheBeginMillisecond(),
                                 calculateDate.getNextAimMonthAndDay(onBoardDate).getNextAimMonthAndDay(calculateDate).getYesterday().convertToLongAndSetToTheEndMillisecond(),
-                                partTwoLeaveNum, leaveNum2));
+                                partTwoLeaveNum, leaveNum2, annualLeaveUtil.getSeniorityMonths(seniority2)));
                     }
                 }
 //                showDate(leaveDataLinkedList);
@@ -173,15 +173,15 @@ public class AnnualLeaveCalculator {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("E yyyy/MM/dd");
         System.out.println("*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*");
-        for (LeaveData leaveData :
-                leaveDataLinkedList) {
+        for (LeaveData leaveData : leaveDataLinkedList) {
             calendar.setTimeInMillis(leaveData.getActiveDateTime());
             System.out.println("S: " + sdf.format(calendar.getTime()));
             calendar.setTimeInMillis(leaveData.getExpireDateTime());
             System.out.println("E: " + sdf.format(calendar.getTime()));
 //            System.out.println("Total: " + leaveData.getTotalMinute());
             System.out.println("Total: " + leaveData.getTotalDays());
-            System.out.println("LeaveType: " + leaveData.getSeniorityMonths());
+            System.out.println("SeniorityMonths: " + leaveData.getSeniorityMonths());
+            System.out.println("LeaveType: " + leaveData.getLeaveType());
             System.out.println("===========================================");
         }
     }
