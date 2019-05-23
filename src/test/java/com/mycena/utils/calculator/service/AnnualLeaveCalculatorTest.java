@@ -38,7 +38,8 @@ public class AnnualLeaveCalculatorTest {
         Assert.assertEquals(1, list.size());
 
         LeaveData leaveData1 = list.get(0);
-        Assert.assertEquals(3, leaveData1.getTotalDay(), 0);
+        Assert.assertEquals(3, leaveData1.getTotalDays(), 0);
+        Assert.assertEquals(6, leaveData1.getSeniorityMonths());
         Assert.assertEquals(LocalDate.of(2019, 11, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getActiveDateTime());
         Assert.assertEquals(LocalDate.of(2020, 4, 30).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getExpireDateTime());
     }
@@ -84,11 +85,13 @@ public class AnnualLeaveCalculatorTest {
         Assert.assertEquals(2, list.size());
 
         LeaveData leaveData1 = list.get(0);
-        Assert.assertEquals(3, leaveData1.getTotalDay(), 0);
+        Assert.assertEquals(3, leaveData1.getTotalDays(), 0);
+        Assert.assertEquals(6, leaveData1.getSeniorityMonths());
         Assert.assertEquals(LocalDate.of(2019, 10, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getActiveDateTime());
         Assert.assertEquals(LocalDate.of(2020, 3, 31).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getExpireDateTime());
 
         LeaveData leaveData2 = list.get(1);
+        Assert.assertEquals(12, leaveData2.getSeniorityMonths());
         Assert.assertEquals(LocalDate.of(2020, 4, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData2.getActiveDateTime());
         Assert.assertEquals(LocalDate.of(2020, 4, 30).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData2.getExpireDateTime());
         //TODO more assert
@@ -107,11 +110,13 @@ public class AnnualLeaveCalculatorTest {
         Assert.assertEquals(2, list.size());
 
         LeaveData leaveData1 = list.get(0);
-        Assert.assertEquals(3, leaveData1.getTotalDay(), 0);
+        Assert.assertEquals(3, leaveData1.getTotalDays(), 0);
+        Assert.assertEquals(6, leaveData1.getSeniorityMonths());
         Assert.assertEquals(LocalDate.of(2019, 10, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getActiveDateTime());
         Assert.assertEquals(LocalDate.of(2020, 3, 31).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getExpireDateTime());
 
         LeaveData leaveData2 = list.get(1);
+        Assert.assertEquals(12, leaveData2.getSeniorityMonths());
         Assert.assertEquals(LocalDate.of(2020, 4, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData2.getActiveDateTime());
         Assert.assertEquals(LocalDate.of(2020, 5, 6).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData2.getExpireDateTime());
         //TODO more assert
@@ -150,11 +155,13 @@ public class AnnualLeaveCalculatorTest {
 
 
         LeaveData leaveData1 = list.get(0);
-        Assert.assertEquals(3, leaveData1.getTotalDay(), 0);
+        Assert.assertEquals(3, leaveData1.getTotalDays(), 0);
+        Assert.assertEquals(6, leaveData1.getSeniorityMonths());
         Assert.assertEquals(LocalDate.of(2019, 11, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getActiveDateTime());
         Assert.assertEquals(LocalDate.of(2020, 4, 30).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getExpireDateTime());
 
         LeaveData leaveData2 = list.get(1);
+        Assert.assertEquals(12, leaveData2.getSeniorityMonths());
         Assert.assertEquals(LocalDate.of(2020, 5, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData2.getActiveDateTime());
         Assert.assertEquals(LocalDate.of(2020, 5, 3).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData2.getExpireDateTime());
         //TODO more assert
@@ -181,7 +188,8 @@ public class AnnualLeaveCalculatorTest {
         Assert.assertEquals(1, list.size());
 
         LeaveData leaveData1 = list.get(0);
-        Assert.assertEquals(7, leaveData1.getTotalDay(), 0);
+        Assert.assertEquals(7, leaveData1.getTotalDays(), 0);
+        Assert.assertEquals(12, leaveData1.getSeniorityMonths());
         Assert.assertEquals(LocalDate.of(2020, 5, 1).atTime(LocalTime.MIN).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getActiveDateTime());
         Assert.assertEquals(LocalDate.of(2021, 4, 30).atTime(LocalTime.MAX).atZone(zoneId).toInstant().toEpochMilli(), leaveData1.getExpireDateTime());
     }
@@ -192,7 +200,8 @@ public class AnnualLeaveCalculatorTest {
             System.out.println("--- part " + count.incrementAndGet() + " ---");
             System.out.println("activeDateTime = " + Instant.ofEpochMilli(leaveData.getActiveDateTime()).atZone(zoneId));
             System.out.println("expireDateTime = " + Instant.ofEpochMilli(leaveData.getExpireDateTime()).atZone(zoneId));
-            System.out.println("totalDay = " + leaveData.getTotalDay());
+            System.out.println("totalDays = " + leaveData.getTotalDays());
+            System.out.println("seniorityMonths = " + leaveData.getSeniorityMonths());
         });
 
         System.out.println("=== total " + count + " ===");
