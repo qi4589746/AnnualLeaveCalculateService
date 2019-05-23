@@ -43,6 +43,15 @@ public class AnnualLeaveUtil {
         return 0;
     }
 
+
+    public int getSeniorityMonths(FormattedDate seniority) {
+        if (seniority.year == 0 && seniority.month >= 6)
+            return 6;
+
+        return seniority.year * 12;
+
+    }
+
     public int convertFloatToMinute(float totalLeaveDay) {
         double totalLeaveDay_doubleType = totalLeaveDay;
         BigDecimal bigDecimal = new BigDecimal(totalLeaveDay);
